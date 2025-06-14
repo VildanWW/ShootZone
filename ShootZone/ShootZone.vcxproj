@@ -135,7 +135,9 @@
     <ClCompile Include="ShootZone.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Map.h" />
   </ItemGroup>
