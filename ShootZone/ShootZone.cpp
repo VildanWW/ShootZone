@@ -17,9 +17,10 @@ sf::Texture textureHero;
 // Функция показа героя
 void showHero(sf::RenderWindow& window, Hero& entityHero, float time) {
     entityHero.moveSpriteEntity(window, time);
-    entityHero.update(time);
+    entityHero.update(time, window);
     entityHero.drawHero(window);
     entityHero.drawHealthHero(window);
+    entityHero.updateX(time, window);
 }
 
 // Функция для вывода пуль автомата Калашникова 
@@ -38,6 +39,11 @@ void updateAndRenderBullets(std::vector<Bullet>& bulletsWeaponKalashnikov, float
     }
 }
 
+// Функция для прыжка героя
+void heroCanJump(Hero& entityHero){
+    entityHero.heroEntityCanJump();
+}
+
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "ShootZone");
 
@@ -51,18 +57,22 @@ int main() {
         return -1;
     }
 
+    // Спрайт карты
     sf::Sprite spritesMap;
     sf::Sprite spriteHero(textureHero);
     Hero entityHero(spriteHero);
 
+    // Время
     sf::Clock clock;
 
+    // Текстура и спрайт пули
     sf::Texture textureBullet;
     if (!textureBullet.loadFromFile("image/ammo.png")) {
         std::cerr << "Ошибка: не удалось загрузить image/map.png" << std::endl;
     }
     sf::Sprite spriteBullet(textureBullet);
 
+    // Создание автомата Калашникова
     WeaponsKalashnikov kalashnikov;
     std::vector<Bullet> bulletsWeaponKalashnikov;
     Weapons* weaponKalashnikov = &kalashnikov;
@@ -79,6 +89,12 @@ int main() {
                 sf::FloatRect heroBounds = entityHero.getBounds();
 
                 weaponKalashnikov->shoot(window, heroPos, heroBounds, spriteBullet, bulletsWeaponKalashnikov, shootRight);
+            }
+            
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Space) {
+                if (entityHero.onGround) {
+                    heroCanJump(entityHero);
+                }
             }
         }
 
