@@ -33,6 +33,7 @@ private:
     sf::RectangleShape hitboxShape;
 
 public:
+    
     bool onGround = false;
     bool isFacingRight() const { return facingRight; }
     
@@ -100,11 +101,14 @@ public:
             }
 
             else {
+                
                 spriteEntity.setScale(-1.f, 1.f);
                 spriteEntity.setOrigin(143.f, 0.f);
+                
             }
         }
     }
+
     
     void heroEntityCanJump() {
         velocityY = -400;
@@ -131,22 +135,15 @@ public:
             sf::FloatRect footHitbox(bounds.left + 20, bounds.top + bounds.height - footHeight, bounds.width - 40, footHeight);
 
             // Проверяем 3 точки по хитбоксу ног для коллизии
-            float x1 = footHitbox.left + 15;
+            
             float x2 = footHitbox.left + footHitbox.width / 2;
-            float x3 = footHitbox.left + footHitbox.width - 5;
             float yFoot = footHitbox.top + footHitbox.height - 15;
-
             int tileY = int(yFoot / 32);
-            int tileX1 = int(x1 / 32);
             int tileX2 = int(x2 / 32);
-            int tileX3 = int(x3 / 32);
-
             bool contact = false;
 
             if (tileY >= 0 && tileY < 34) {
-                if (tileX1 >= 0 && tileX1 < 100 && arr[tileY][tileX1] == '0') contact = true;
                 if (tileX2 >= 0 && tileX2 < 100 && arr[tileY][tileX2] == '0') contact = true;
-                if (tileX3 >= 0 && tileX3 < 100 && arr[tileY][tileX3] == '0') contact = true;
             }
 
             textHealthHero.setPosition(spriteEntity.getPosition().x, tileY * 32 - bounds.height + footHeight - 20);
@@ -161,14 +158,7 @@ public:
             // Выводим 3 точки по хитбоксу ног для коллизии
             sf::CircleShape footPoint(3);
             footPoint.setFillColor(sf::Color::Yellow);
-
-            footPoint.setPosition(x1, yFoot);
-            window.draw(footPoint);
-
             footPoint.setPosition(x2, yFoot);
-            window.draw(footPoint);
-
-            footPoint.setPosition(x3, yFoot);
             window.draw(footPoint);
         }
     }
@@ -185,8 +175,8 @@ public:
         if (facingRight) {
             // Проверяем 3 точки по хитбоксу вертикали справа для коллизии
             float xCheckTop = bounds.left + bounds.width - 60;
-            float xCheckMiddle = bounds.left + bounds.width - 10;
-            float xCheckBottom = bounds.left + bounds.width - 50;
+            float xCheckMiddle = bounds.left + bounds.width - 30;
+            float xCheckBottom = bounds.left + bounds.width - 70;
 
             float yTop = bounds.top + 5;
             float yMiddle = bounds.top + bounds.height / 2 - 35;
@@ -208,7 +198,7 @@ public:
                 spriteEntity.setPosition(tileXMiddle * 32 - bounds.width + 30, bounds.top);
             }
             else if (arr[tileY3][tileXBottom] == '0') {
-                spriteEntity.setPosition(tileXBottom * 32 - bounds.width + 10, bounds.top);
+                spriteEntity.setPosition(tileXBottom * 32 - bounds.width + 50, bounds.top);
             }
 
             // Вывод точек соприкосновения для проверок
@@ -229,7 +219,7 @@ public:
             // Проверяем 3 точки по хитбоксу вертикали слева для коллизии
             float xCheckTop = bounds.left + 50;
             float xCheckMiddle = bounds.left + 10;
-            float xCheckBottom = bounds.left + 40;
+            float xCheckBottom = bounds.left + 70;
 
             float yTop = bounds.top + 5;
             float yMiddle = bounds.top + bounds.height / 2 - 35;
@@ -251,7 +241,7 @@ public:
                 spriteEntity.setPosition(tileXMiddle * 32 - 15, bounds.top);
             }
             else if (arr[tileY3][tileXBottom] == '0') {
-                spriteEntity.setPosition(tileXBottom * 32 - 12, bounds.top);
+                spriteEntity.setPosition(tileXBottom * 32 - 30, bounds.top);
             }
 
             // Вывод точек соприкосновения для проверок

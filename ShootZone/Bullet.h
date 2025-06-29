@@ -2,9 +2,12 @@ class Bullet {
 private:
     sf::Sprite sprite;
     sf::Vector2f velocity;
-    float speed = 3000;
-
+    float speed = 7000;
+    
 public:
+    sf::FloatRect getBounds() const {
+        return sprite.getGlobalBounds();
+    }
     // Теперь конструктор принимает флаг направления
     Bullet(const sf::Texture& texture, const sf::Vector2f& startPos, bool facingRight){
         sprite.setTexture(texture);
@@ -30,8 +33,15 @@ public:
     }
 
     bool isOffScreen(const sf::RenderWindow& window) const {
+        
         sf::FloatRect bounds = sprite.getGlobalBounds();
-        return bounds.left > window.getSize().x || bounds.top > window.getSize().y
-            || bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0;
+        if (bounds.left > window.getSize().x || bounds.top > window.getSize().y
+            || bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
+
 };

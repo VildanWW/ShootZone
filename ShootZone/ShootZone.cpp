@@ -21,14 +21,23 @@ void showHero(sf::RenderWindow& window, Hero& entityHero, float time) {
     entityHero.drawHero(window);
     entityHero.drawHealthHero(window);
     entityHero.updateX(time, window);
+    
 }
 
-// Функция для вывода пуль автомата Калашникова 
-void updateAndRenderBullets(std::vector<Bullet>& bulletsWeaponKalashnikov, float time, sf::RenderWindow& window) {
+void updateAndRenderBullets(std::vector<Bullet>& bulletsWeaponKalashnikov, float time, sf::RenderWindow& window,sf::Sprite& spriteEarth) {
     if (!bulletsWeaponKalashnikov.empty()) {
         for (auto it = bulletsWeaponKalashnikov.begin(); it != bulletsWeaponKalashnikov.end();) {
             it->update(time);
-            if (it->isOffScreen(window)) {
+
+            bool collided = false;
+            for (const auto& tile : collisionTiles) {
+                if (it->getBounds().intersects(tile.getGlobalBounds())) {
+                    collided = true;
+                    break;
+                }
+            }
+
+            if (it->isOffScreen(window) || collided) {
                 it = bulletsWeaponKalashnikov.erase(it);
             }
             else {
@@ -76,6 +85,12 @@ int main() {
     WeaponsKalashnikov kalashnikov;
     std::vector<Bullet> bulletsWeaponKalashnikov;
     Weapons* weaponKalashnikov = &kalashnikov;
+    
+    // Создание земли для коллизии с пулей
+    sf::Sprite spriteEarth;
+    spriteEarth.setTexture(textureMap);
+    spriteEarth.setTextureRect(sf::IntRect(64, 0, 32, 32));
+    
 
     while (window.isOpen()) {
         sf::Event event;
@@ -101,11 +116,13 @@ int main() {
         float time = clock.restart().asSeconds();
 
         window.clear();
+        window.draw(spriteEarth);
 
         showMap(spritesMap, window);
         showHero(window, entityHero, time);
-        updateAndRenderBullets(bulletsWeaponKalashnikov, time, window);
+        updateAndRenderBullets(bulletsWeaponKalashnikov, time, window, spriteEarth);
 
+        
         window.display();
     }
     return 0;
