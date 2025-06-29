@@ -1,47 +1,19 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+
 class Bullet {
 private:
     sf::Sprite sprite;
     sf::Vector2f velocity;
     float speed = 7000;
-    
 public:
-    sf::FloatRect getBounds() const {
-        return sprite.getGlobalBounds();
-    }
-    // Теперь конструктор принимает флаг направления
-    Bullet(const sf::Texture& texture, const sf::Vector2f& startPos, bool facingRight){
-        sprite.setTexture(texture);
-        sprite.setScale(0.02f, 0.02f);        // уменьшаем спрайт
-        sprite.setPosition(startPos);         // ставим в нужную позицию
+    sf::FloatRect getBounds() const;
 
-        if (facingRight) {
-            velocity = sf::Vector2f(speed, 0.f);  // летит вправо
-            sprite.setRotation(90);             // смотрит вправо
-        }
-        else {
-            velocity = sf::Vector2f(-speed, 0.f); // летит влево
-            sprite.setRotation(-90);           // смотрит влево
-        }
-    }
+    Bullet(const sf::Texture& texture, const sf::Vector2f& startPos, bool facingRight);
 
-    void update(float deltaTime) {
-        sprite.move(velocity * deltaTime);
-    }
+    void update(float deltaTime);
 
-    void draw(sf::RenderWindow& window) {
-        window.draw(sprite);
-    }
+    void draw(sf::RenderWindow& window) const;
 
-    bool isOffScreen(const sf::RenderWindow& window) const {
-        
-        sf::FloatRect bounds = sprite.getGlobalBounds();
-        if (bounds.left > window.getSize().x || bounds.top > window.getSize().y
-            || bounds.left + bounds.width < 0 || bounds.top + bounds.height < 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
+    bool isOffScreen(const sf::RenderWindow& window) const;
 };

@@ -2,69 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-const int height = 34;
-const int width = 100;  
-std::vector<sf::Sprite> collisionTiles;
-
-std::string arr[height] = {
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                                                                    ",
-        "                                                        0000                                        ",
-        "                              00                      00000000000                    00             ",
-        "0000000000000000000         000000                  00000000000000000000000000         000000     00",
-        "0000000000000000000000      000000000000000000000000000000000000000000000000000000000000000000000000",
-        "00000000000000000000000    0000000000000000000000000000000000000000000000000000000000000000000000000",
-        "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-        "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-        "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-        "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-};
-
-void setMap(sf::Sprite& spritesMap, sf::RenderWindow& window) {
-    collisionTiles.clear(); 
-
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            char tile = arr[i][j];
-
-            
-            float x = j * 32;
-            float y = i * 32;
-
-            spritesMap.setPosition(x, y);
-
-            if (tile == '0') {
-                spritesMap.setTextureRect(sf::IntRect(64, 0, 32, 32));
-                collisionTiles.push_back(spritesMap); 
-            }
-            else {
-                spritesMap.setTextureRect(sf::IntRect(120, 0, 32, 32));
-            }
-
-            window.draw(spritesMap);
-        }
-    }
-}
+extern const int height;
+extern const int width;  
+extern std::vector<sf::Sprite> collisionTiles;
+extern std::string arr[];
+       
+void setMap(sf::Sprite& spritesMap, sf::RenderWindow& window); 
